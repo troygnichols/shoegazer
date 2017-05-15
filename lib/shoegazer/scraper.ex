@@ -25,8 +25,13 @@ defmodule Shoegazer.Scraper do
     {:noreply, state, @poll_interval_ms}
   end
 
-  defp pull_data do
-    Logger.debug "Pulling data from twitter"
+  def pull_data do
+    url = "https://api.twitter.com/1.1/statuses/user_timeline.json"
+    params = [{"screen_name", "shoegazer_bot"}, {"count", 2}]
     creds = OAuther.credentials(Application.get_env(:shoegazer, :twitter))
+    signed = OAuther.sign("get", url, params, creds)
+    {header, req_params} = OAuther.header(signed)
+    %{status_code: 200, body: body} = HTTPoison.get!(url, [header], params: req_params)
+    Poison.decode!(body)
   end
 end

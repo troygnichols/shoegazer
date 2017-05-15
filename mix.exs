@@ -16,7 +16,11 @@ defmodule Shoegazer.Mixfile do
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
     [mod: {Shoegazer, []},
-     extra_applications: [:logger]]
+     extra_applications: [
+       :logger,
+       :httpoison,
+       :poison,
+     ]]
   end
 
   # Dependencies can be Hex packages:
@@ -30,7 +34,9 @@ defmodule Shoegazer.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:oauther, "~> 1.1"}
+      {:oauther, "~> 1.1"},
+      {:httpoison, "~> 0.11.1"},
+      {:poison, "~> 3.0"},
     ]
   end
 end
