@@ -14,7 +14,8 @@ defmodule Shoegazer do
     Logger.debug "Initializing application"
 
     children = [
-      worker(Shoegazer.Scraper, [])
+      worker(Shoegazer.Repo, []),
+      worker(Shoegazer.Scraper, []),
     ]
     opts = [
       strategy: :one_for_one,

@@ -20,6 +20,7 @@ defmodule Shoegazer.Mixfile do
        :logger,
        :httpoison,
        :poison,
+       :ecto_mnesia,
      ]]
   end
 
@@ -37,6 +38,7 @@ defmodule Shoegazer.Mixfile do
       {:oauther, "~> 1.1"},
       {:httpoison, "~> 0.11.1"},
       {:poison, "~> 3.0"},
+      {:ecto_mnesia, "~> 0.9.0"},
     ]
   end
 end
