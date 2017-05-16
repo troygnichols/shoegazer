@@ -10,7 +10,7 @@ defmodule Shoegazer.Scraper do
 
   @poll_interval_ms 60 * 1000
 
-  def start_link() do
+  def start_link do
     Logger.debug "Starting Shoegazer.Scraper"
     GenServer.start_link(__MODULE__, [], @options)
   end
