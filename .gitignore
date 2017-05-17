@@ -21,4 +21,6 @@ erl_crash.dump
 
 config/secrets.exs
 
-priv/data/mnesia/*
+priv/data/mnesia/dev*
+priv/data/mnesia/prod*
+priv/data/mnesia/test*
