@@ -3,7 +3,7 @@ defmodule Shoegazer.Repo.Migrations.CreateEntries do
 
   def change do
     create table(:entries) do
-      add :twitter_id, :string
+      add :twitter_id, :integer
       add :url,        :string
       add :created_at, :integer
       add :posted_at,  :integer

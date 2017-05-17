@@ -2,7 +2,7 @@ defmodule Shoegazer.Entry do
   use Ecto.Schema
 
   schema "entries" do
-    field :twitter_id, :string
+    field :twitter_id, :integer
     field :url,        :string
     field :created_at, :integer
     field :posted_at,  :integer
