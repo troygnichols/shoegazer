@@ -5,8 +5,8 @@ defmodule Shoegazer.Repo.Migrations.CreateEntries do
     create table(:entries) do
       add :twitter_id, :string
       add :url,        :string
-      add :created_at, :utc_datetime
-      add :posted_at,  :utc_datetime
+      add :created_at, :integer
+      add :posted_at,  :integer
       add :listened,   :boolean
     end
   end

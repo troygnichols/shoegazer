@@ -4,8 +4,8 @@ defmodule Shoegazer.Entry do
   schema "entries" do
     field :twitter_id, :string
     field :url,        :string
-    field :created_at, :utc_datetime
-    field :posted_at,  :utc_datetime
+    field :created_at, :integer
+    field :posted_at,  :integer
     field :listened,   :boolean
   end
 
