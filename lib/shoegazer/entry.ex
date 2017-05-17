@@ -15,4 +15,11 @@ defmodule Shoegazer.Entry do
     |> Ecto.Changeset.cast(params, fields)
     |> Ecto.Changeset.validate_required(fields)
   end
+
+  def most_recent do
+    require Ecto.Query
+    Ecto.Query.from(e in Shoegazer.Entry,
+      order_by: [desc: e.posted_at], limit: 1)
+      |> Shoegazer.Repo.one()
+  end
 end
