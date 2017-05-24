@@ -9,9 +9,9 @@ defmodule Shoegazer.Entry do
     field :listened,   :boolean
   end
 
-  def changeset(person, params \\ %{}) do
+  def changeset(entry, params \\ %{}) do
     fields = [:twitter_id, :url, :created_at, :posted_at, :listened]
-    person
+    entry
     |> Ecto.Changeset.cast(params, fields)
     |> Ecto.Changeset.validate_required(fields)
   end
