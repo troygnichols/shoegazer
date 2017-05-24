@@ -17,7 +17,7 @@ defmodule Shoegazer.Scraper do
 
   def init(state) do
     Logger.debug "Shoegazer.Scraper starting poll"
-    {:ok, state}#, @poll_interval_ms}
+    {:ok, state, @poll_interval_ms}
   end
 
   def handle_info(:timeout, state) do
