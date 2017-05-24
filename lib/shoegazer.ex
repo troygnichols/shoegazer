@@ -7,7 +7,7 @@ defmodule Shoegazer do
 
   def start(_type, _args) do
     Logger.debug "starting application"
-    Supervisor.start_link(__MODULE__, [name: :fw])
+    Supervisor.start_link(__MODULE__, [name: :shoegazer])
   end
 
   def init(_) do
