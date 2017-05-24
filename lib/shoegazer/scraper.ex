@@ -40,7 +40,6 @@ defmodule Shoegazer.Scraper do
           true ->
             Logger.debug "No new tweets, nothing to do"
         end
-        raise "TODO"
         :ok
       :did_initialize ->
         # initialized a new set of local entries
