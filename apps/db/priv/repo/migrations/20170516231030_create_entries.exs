@@ -3,6 +3,7 @@ defmodule Db.Repo.Migrations.CreateEntries do
 
   def change do
     create table(:entries) do
+      add :id,         :integer
       add :twitter_id, :integer
       add :url,        :string
       add :created_at, :integer
