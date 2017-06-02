@@ -1,5 +1,11 @@
 use Mix.Config
 
+config :mnesia, :dir, [__DIR__, "..", "priv", "data", "mnesia",
+  Mix.env |> to_string()]
+  |> Path.join()
+  |> Path.expand()
+  |> to_charlist()
+
 config :db, Db.Repo,
   adapter: EctoMnesia.Adapter
 
