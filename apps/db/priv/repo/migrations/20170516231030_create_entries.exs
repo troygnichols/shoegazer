@@ -1,4 +1,4 @@
-defmodule Shoegazer.Repo.Migrations.CreateEntries do
+defmodule Db.Repo.Migrations.CreateEntries do
   use Ecto.Migration
 
   def change do

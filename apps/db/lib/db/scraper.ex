@@ -1,4 +1,4 @@
-defmodule Shoegazer.Scraper do
+defmodule Db.Scraper do
   use GenServer
 
   require Logger
@@ -11,12 +11,12 @@ defmodule Shoegazer.Scraper do
   @poll_interval_ms 60 * 1000
 
   def start_link do
-    Logger.debug "Starting Shoegazer.Scraper"
+    Logger.debug "Starting Db.Scraper"
     GenServer.start_link(__MODULE__, [], @options)
   end
 
   def init(state) do
-    Logger.debug "Shoegazer.Scraper starting poll"
+    Logger.debug "Db.Scraper starting poll"
     {:ok, state, @poll_interval_ms}
   end
 
@@ -59,12 +59,12 @@ defmodule Shoegazer.Scraper do
   end
 
   def maybe_init_local_entries do
-    case Shoegazer.Entry.most_recent() do
+    case Db.Entry.most_recent() do
       nil ->
         Logger.debug "Initializing local entries, fetching tweets"
         entries = last_n_tweets(50)
         |> Enum.map(&entry_params_from_tweet/1)
-        Shoegazer.Repo.insert_all(Shoegazer.Entry, entries)
+        Db.Repo.insert_all(Db.Entry, entries)
         :did_initialize
       entry ->
         Logger.debug "Local entries already initialized, returning most recent: #{inspect entry}"
@@ -77,7 +77,7 @@ defmodule Shoegazer.Scraper do
 
   def fetch_tweets(params) do
     url = "https://api.twitter.com/1.1/statuses/user_timeline.json"
-    creds = OAuther.credentials(Application.get_env(:shoegazer, :twitter))
+    creds = OAuther.credentials(Application.get_env(:db, :twitter))
     signed = OAuther.sign("get", url, make_params(params), creds)
     {header, req_params} = OAuther.header(signed)
     %{status_code: 200, body: body} = HTTPoison.get!(url, [header], params: req_params)
@@ -105,7 +105,7 @@ defmodule Shoegazer.Scraper do
       max_id: newest_tweet["id"], count: 20)
 
     entries = Enum.map(new_tweets, &entry_params_from_tweet/1)
-    Shoegazer.Repo.insert_all(Shoegazer.Entry, entries)
+    Db.Repo.insert_all(Db.Entry, entries)
 
     newest_entry_after_update = Enum.max_by(entries, &(&1.twitter_id))
     sync_tweets_with_entries(newest_tweet, newest_entry_after_update)

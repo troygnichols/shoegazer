@@ -1,4 +1,4 @@
-defmodule Shoegazer.Entry do
+defmodule Db.Entry do
   use Ecto.Schema
 
   schema "entries" do
@@ -18,8 +18,8 @@ defmodule Shoegazer.Entry do
 
   def most_recent do
     require Ecto.Query
-    Ecto.Query.from(e in Shoegazer.Entry,
+    Ecto.Query.from(e in Db.Entry,
       order_by: [desc: e.posted_at], limit: 1)
-      |> Shoegazer.Repo.one()
+      |> Db.Repo.one()
   end
 end

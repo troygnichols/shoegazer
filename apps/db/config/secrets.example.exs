@@ -1,6 +1,6 @@
 use Mix.Config
 
-config :shoegazer, :twitter, %{
+config :db, :twitter, %{
   consumer_key:    "TODO",
   consumer_secret: "TODO",
   token:           "TODO",
