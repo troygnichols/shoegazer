@@ -38,4 +38,22 @@ defmodule Db.APITest do
     assert offset == 0
     assert [1, 2] == records |> Enum.map(&(&1.twitter_id))
   end
+
+  test "delete entry" do
+    import Ecto.Query
+    Db.Repo.delete_all(Db.Entry)
+    Db.Repo.insert!(%Db.Entry{twitter_id: 1, url: "http://foo.bar", created_at: 0, posted_at: 0, listened: false})
+    Db.Repo.insert!(%Db.Entry{twitter_id: 2, url: "http://foo.bar", created_at: 0, posted_at: 1, listened: false})
+    entry = Db.Repo.one(from e in Db.Entry, where: [twitter_id: 1])
+    Db.API.delete_entry(:id, entry.id)
+    assert 1 == Db.Repo.all(Db.Entry) |> Enum.count()
+  end
+
+  test "fetch by twitter id" do
+    Db.Repo.delete_all(Db.Entry)
+    Db.Repo.insert!(%Db.Entry{twitter_id: 1, url: "http://foo.bar", created_at: 0, posted_at: 0, listened: false})
+    Db.Repo.insert!(%Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 1, listened: false})
+    found = Db.API.fetch_entry(:twitter_id, 2)
+    assert "http://baz.qux" == found.url
+  end
 end

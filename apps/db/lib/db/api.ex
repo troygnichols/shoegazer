@@ -17,8 +17,12 @@ defmodule Db.API do
     GenServer.start_link(__MODULE__, [], @options)
   end
 
-  def handle_call({:get_entries, offset, limit}, _from, state) do
-    {:reply, get_entries(offset, limit), state}
+  def handle_call({:get_entries, offset}, _from, state) do
+    {:reply, get_entries(offset), state}
+  end
+
+  def handle_call({:delete_entry, :id, id}, _from, state) do
+    {:reply, delete_entry(:id, id), state}
   end
 
   def get_entries(offset \\ 0, limit \\ @max_limit, sort_dir \\ :desc) do
@@ -28,5 +32,14 @@ defmodule Db.API do
       |> Enum.slice(offset, limit)
     total = :mnesia.table_info(:entries, :size)
     %{total: total, records: records, limit: limit, offset: offset}
+  end
+
+  def delete_entry(:id, id) do
+    fetch_entry(:id, id)
+    |> Repo.delete!()
+  end
+
+  def fetch_entry(field, value) do
+    Repo.get_by!(Entry, [{field, value}])
   end
 end
