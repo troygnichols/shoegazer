@@ -43,7 +43,7 @@ defmodule Db.Mixfile do
       {:oauther, "~> 1.1"},
       {:httpoison, "~> 0.11.1"},
       {:poison, "~> 3.0"},
-      {:ecto_mnesia, "~> 0.9.0"},
+      {:ecto_mnesia, github: "Nebo15/ecto_mnesia", ref: "0c872fd4"},
       {:timex, "~> 3.0"},
     ]
   end
