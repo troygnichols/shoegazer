@@ -17,9 +17,7 @@ defmodule Db.Entry do
   end
 
   def most_recent do
-    require Ecto.Query
-    Ecto.Query.from(e in Db.Entry,
-      order_by: [desc: e.posted_at], limit: 1)
-      |> Db.Repo.one()
+    import Ecto.Query
+    Db.Repo.one(from e in Db.Entry, order_by: [desc: e.posted_at], limit: 1)
   end
 end
