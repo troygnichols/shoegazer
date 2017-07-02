@@ -24,8 +24,8 @@
       <td><%= entry.listened %></td>
 
       <td class="text-right">
-        <%= link "Show", to: entry_path(@conn, :show, entry), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: entry_path(@conn, :delete, entry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Show", to: entry_path(@conn, :show, entry), class: "btn btn-secondary btn-sm" %>
+        <%= link "Delete", to: entry_path(@conn, :delete, entry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %>
       </td>
     </tr>
 <% end %>

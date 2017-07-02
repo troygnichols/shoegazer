@@ -54,16 +54,22 @@ exports.config = {
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/web\/static\/vendor/]
+    },
+    sass: {
+      options: {
+        includePaths: ['node_modules/bootstrap/scss']
+      }
     }
   },
 
   modules: {
     autoRequire: {
-      "js/app.js": ["web/static/js/app"]
+      "js/app.js": ["jquery", "web/static/js/app"]
     }
   },
 
   npm: {
-    enabled: true
+    enabled: true,
+    styles: {bootstrap: ["dist/css/bootstrap.css"]}
   }
 };
