@@ -1,1 +1,18 @@
 /* This file is for your main application css. */
+
+.yt-placeholder {
+  height: 390px;
+  width: 640px;
+  background-color: #eee;
+  color: #777;
+  text-align: center;
+  div {
+    margin-top: 150px;
+    display: inline-block;
+    font-size: 48px;
+    img {
+      height: 1.1em;
+      margin-bottom: 7px;
+    }
+  }
+}

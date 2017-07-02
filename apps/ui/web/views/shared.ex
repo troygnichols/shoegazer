@@ -34,9 +34,9 @@ defmodule Ui.Views.Shared do
   end
 
   def yes_no(true) do
-    {:safe, ~s[<span class="badge badge-success">Yes</span>]}
+    {:safe, ~s[<span class="badge badge-pill badge-success">Yes</span>]}
   end
   def yes_no(false) do
-    {:safe, ~s[<span class="badge badge-danger">No</span>]}
+    {:safe, ~s[<span class="badge badge-pill badge-danger">No</span>]}
   end
 end
