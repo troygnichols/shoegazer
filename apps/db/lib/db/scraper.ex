@@ -87,7 +87,7 @@ defmodule Db.Scraper do
   def make_params(params) do
     params
     |> Enum.reject(fn({_key, value}) -> is_nil(value) end)
-    |> Keyword.merge([screen_name: "shoegazer_bot"])
+    |> Keyword.merge([screen_name: Db.API.screen_name()])
     |> Enum.map(fn({key, value}) ->
       {to_string(key), to_string(value)}
     end)

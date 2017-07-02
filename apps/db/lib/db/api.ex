@@ -29,6 +29,10 @@ defmodule Db.API do
     {:reply, fetch_entry(field, value), state}
   end
 
+  def handle_call(:screen_name, _from, state) do
+    {:reply, screen_name(), state}
+  end
+
   def get_entries(offset \\ 0, limit \\ @max_limit, sort_dir \\ :desc) do
     import Ecto.Query
     records = Repo.all(
@@ -45,5 +49,9 @@ defmodule Db.API do
 
   def fetch_entry(field, value) do
     Repo.get_by!(Entry, [{field, value}])
+  end
+
+  def screen_name do
+    Application.get_env(:db, :screen_name)
   end
 end

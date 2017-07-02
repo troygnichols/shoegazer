@@ -12,6 +12,8 @@ config :db, Db.Repo,
 config :db,
   ecto_repos: [Db.Repo]
 
+config :db, screen_name: "shoegazer_bot"
+
 import_config "secrets.exs"
 
 import_config "#{Mix.env}.exs"

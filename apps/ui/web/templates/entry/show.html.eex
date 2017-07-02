@@ -1,32 +1,32 @@
-<h2>Show entry</h2>
+<h2>Entry #<%= @entry.id %></h2>
 
 <ul>
 
   <li>
-    <strong>Twitter:</strong>
-    <%= @entry.twitter_id %>
+    <strong>Twitter ID:</strong>
+    <%= link @entry.twitter_id, to: twitter_url(@entry.twitter_id), target: "_blank" %>
   </li>
 
   <li>
-    <strong>Url:</strong>
-    <%= @entry.url %>
+    <strong>URL:</strong>
+    <%= link @entry.url, to: @entry.url, target: "_blank" %>
   </li>
 
   <li>
     <strong>Created at:</strong>
-    <%= @entry.created_at %>
+    <%= unix_datetime @entry.created_at, "%y-%m-%d %H:%MZ" %>
   </li>
 
   <li>
     <strong>Posted at:</strong>
-    <%= @entry.posted_at %>
+    <%= unix_datetime @entry.posted_at, "%y-%m-%d %H:%MZ" %>
   </li>
 
   <li>
     <strong>Listened:</strong>
-    <%= @entry.listened %>
+    <%= yes_no @entry.listened %>
   </li>
 
 </ul>
 
-<%= link "Back", class: "btn btn-default", to: entry_path(@conn, :index) %>
+<%= link "Back", class: "btn btn-secondary", to: entry_path(@conn, :index) %>

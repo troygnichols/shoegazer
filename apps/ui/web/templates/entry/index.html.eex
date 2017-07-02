@@ -1,4 +1,7 @@
-<h2>Entries</h2>
+<h2 class="float-left">Entries</h2>
+<p class="float-right">
+  <small><em>*Times shown in UTC</em></small>
+</p>
 
 <table class="table">
   <thead>
@@ -6,8 +9,8 @@
       <th>ID</th>
       <th>Twt ID</th>
       <th>URL</th>
-      <th>Created</th>
-      <th>Posted</th>
+      <th>Created*</th>
+      <th>Posted*</th>
       <th>Listened</th>
 
       <th></th>
@@ -17,15 +20,16 @@
 <%= for entry <- @entries do %>
     <tr>
       <td><%= entry.id %></td>
-      <td><%= entry.twitter_id %></td>
-      <td><%= entry.url %></td>
-      <td><%= unix_datetime entry.created_at %></td>
-      <td><%= unix_datetime entry.posted_at %></td>
-      <td><%= entry.listened %></td>
+      <td><%= link entry.twitter_id, to: twitter_url(entry.twitter_id), target: "_blank" %></td>
+      <td><%= link entry.url, to: entry.url, target: "_blank" %></td>
+      <td><%= unix_datetime entry.created_at, "%y-%m-%d %H:%MZ" %></td>
+      <td><%= unix_datetime entry.posted_at, "%y-%m-%d %H:%MZ" %></td>
+      <td><%= yes_no entry.listened %></td>
 
       <td class="text-right">
         <%= link "Show", to: entry_path(@conn, :show, entry), class: "btn btn-secondary btn-sm" %>
-        <%= link "Delete", to: entry_path(@conn, :delete, entry), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %>
+        <%= link "Delete", to: entry_path(@conn, :delete, entry),
+          method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %>
       </td>
     </tr>
 <% end %>
