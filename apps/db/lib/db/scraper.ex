@@ -4,20 +4,20 @@ defmodule Db.Scraper do
   require Logger
 
   @options [
-    name: :scraper,
+    name: :dbscraper,
     debug: [:trace],
   ]
 
   @poll_interval_ms 60 * 1000
 
   def start_link do
-    Logger.debug "Starting Db.Scraper"
+    Logger.debug "Db Scraper starting"
     GenServer.start_link(__MODULE__, [], @options)
   end
 
   def init(state) do
-    Logger.debug "Db.Scraper starting poll"
-    {:ok, state, @poll_interval_ms}
+    Logger.debug "Db Scraper starting poll"
+    {:ok, state} #, @poll_interval_ms}
   end
 
   def handle_info(:timeout, state) do
