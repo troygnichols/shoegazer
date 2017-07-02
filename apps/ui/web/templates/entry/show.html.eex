@@ -1,0 +1,32 @@
+<h2>Show entry</h2>
+
+<ul>
+
+  <li>
+    <strong>Twitter:</strong>
+    <%= @entry.twitter_id %>
+  </li>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @entry.url %>
+  </li>
+
+  <li>
+    <strong>Created at:</strong>
+    <%= @entry.created_at %>
+  </li>
+
+  <li>
+    <strong>Posted at:</strong>
+    <%= @entry.posted_at %>
+  </li>
+
+  <li>
+    <strong>Listened:</strong>
+    <%= @entry.listened %>
+  </li>
+
+</ul>
+
+<%= link "Back", class: "btn btn-default", to: entry_path(@conn, :index) %>
