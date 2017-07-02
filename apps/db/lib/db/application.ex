@@ -11,6 +11,7 @@ defmodule Db.Application do
     Logger.debug "starting db application"
 
     children = [
+      worker(Db.API, []),
       worker(Db.Repo, []),
       worker(Db.Scraper, []),
     ]
@@ -18,7 +19,7 @@ defmodule Db.Application do
     opts = [
       strategy: :one_for_one,
       debug: [:trace],
-      name: :db
+      name: Db.Supervisor,
     ]
 
     Supervisor.start_link(children, opts)
