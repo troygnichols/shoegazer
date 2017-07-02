@@ -56,4 +56,64 @@ defmodule Db.APITest do
     found = Db.API.fetch_entry(:twitter_id, 2)
     assert "http://baz.qux" == found.url
   end
+
+  test "earliest entry listened not specified" do
+    Db.Repo.delete_all(Db.Entry)
+    entry1 = %Db.Entry{twitter_id: 1, url: "http://foo.bar", created_at: 0, posted_at: 0, listened: true}
+    entry2 = %Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 1, listened: false}
+    entry3 = %Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 2, listened: false}
+    Db.Repo.insert!(entry1)
+    Db.Repo.insert!(entry2)
+    Db.Repo.insert!(entry3)
+    found = Db.API.earliest_entry()
+    assert found.twitter_id == entry1.twitter_id
+  end
+
+  test "earliest entry listened true" do
+    Db.Repo.delete_all(Db.Entry)
+    entry1 = %Db.Entry{twitter_id: 1, url: "http://foo.bar", created_at: 0, posted_at: 0, listened: false}
+    entry2 = %Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 1, listened: true}
+    entry3 = %Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 2, listened: true}
+    Db.Repo.insert!(entry1)
+    Db.Repo.insert!(entry2)
+    Db.Repo.insert!(entry3)
+    found = Db.API.earliest_entry(listened: true)
+    assert found.twitter_id == entry2.twitter_id
+  end
+
+  test "earliest entry listened false" do
+    Db.Repo.delete_all(Db.Entry)
+    entry1 = %Db.Entry{twitter_id: 1, url: "http://foo.bar", created_at: 0, posted_at: 0, listened: true}
+    entry2 = %Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 1, listened: false}
+    entry3 = %Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 2, listened: false}
+    Db.Repo.insert!(entry1)
+    Db.Repo.insert!(entry2)
+    Db.Repo.insert!(entry3)
+    found = Db.API.earliest_entry(listened: false)
+    assert found.twitter_id == entry2.twitter_id
+  end
+
+  test "earliest entry with bad value" do
+    Db.Repo.delete_all(Db.Entry)
+    entry1 = %Db.Entry{twitter_id: 1, url: "http://foo.bar", created_at: 0, posted_at: 0, listened: true}
+    entry2 = %Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 1, listened: false}
+    entry3 = %Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 2, listened: false}
+    Db.Repo.insert!(entry1)
+    Db.Repo.insert!(entry2)
+    Db.Repo.insert!(entry3)
+    found = Db.API.earliest_entry(listened: :foobar)
+    assert found.twitter_id == entry1.twitter_id
+  end
+
+  test "earliest entry with bad field" do
+    Db.Repo.delete_all(Db.Entry)
+    entry1 = %Db.Entry{twitter_id: 1, url: "http://foo.bar", created_at: 0, posted_at: 0, listened: true}
+    entry2 = %Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 1, listened: false}
+    entry3 = %Db.Entry{twitter_id: 2, url: "http://baz.qux", created_at: 0, posted_at: 2, listened: false}
+    Db.Repo.insert!(entry1)
+    Db.Repo.insert!(entry2)
+    Db.Repo.insert!(entry3)
+    found = Db.API.earliest_entry(foobar: :bazqux)
+    assert found.twitter_id == entry1.twitter_id
+  end
 end

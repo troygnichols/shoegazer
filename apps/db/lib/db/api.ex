@@ -29,13 +29,17 @@ defmodule Db.API do
     {:reply, fetch_entry(field, value), state}
   end
 
+  def handle_call({:earliest_entry, opts}, _from, state) do
+    {:reply, earliest_entry(opts), state}
+  end
+
   def handle_call(:screen_name, _from, state) do
     {:reply, screen_name(), state}
   end
 
   def get_entries(offset \\ 0, limit \\ nil, sort_dir \\ :desc) do
-    limit = limit || @max_limit
     import Ecto.Query
+    limit = limit || @max_limit
     records = Repo.all(
       from e in Entry, order_by: [{^sort_dir, e.posted_at}])
       |> Enum.slice(offset, limit)
@@ -52,7 +56,18 @@ defmodule Db.API do
     Repo.get_by!(Entry, [{field, value}])
   end
 
+  def earliest_entry(opts \\ []) do
+    import Ecto.Query
+    query = Entry |> order_by([asc: :posted_at]) |> limit(1)
+    query = case opts[:listened] do
+      val when is_boolean(val) -> query |> where(listened: ^val)
+      _ -> query
+    end
+    Db.Repo.one(query)
+  end
+
   def screen_name do
     Application.get_env(:db, :screen_name)
   end
+
 end
