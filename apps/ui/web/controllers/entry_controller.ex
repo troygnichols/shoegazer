@@ -1,8 +1,12 @@
 defmodule Ui.EntryController do
   use Ui.Web, :controller
 
-  def index(conn, _params) do
-    render conn, "index.html", entries: get_entries()
+  @default_page_size 10
+
+  def index(conn, params) do
+    {offset, limit} = get_paging_info(params)
+    {records, meta} = get_entries(offset, limit)
+    render conn, "index.html", entries: records, meta: meta
   end
 
   def show(conn, %{"id"=>id}) do
@@ -14,10 +18,9 @@ defmodule Ui.EntryController do
     redirect conn, to: entry_path(conn, :index)
   end
 
-  defp get_entries do
-    offset = 0
-    %{records: records} = GenServer.call(:db, {:get_entries, offset})
-    records
+  defp get_entries(offset, limit) do
+    GenServer.call(:db, {:get_entries, offset, limit})
+    |> Map.pop(:records)
   end
 
   defp delete_entry(id) do
@@ -27,4 +30,11 @@ defmodule Ui.EntryController do
   defp fetch_entry(id) do
     GenServer.call(:db, {:fetch_entry, :id, id})
   end
+
+  defp get_paging_info(%{"page"=>page, "per_page"=>per_page}) do
+    page = String.to_integer(page) - 1
+    per_page = String.to_integer(per_page)
+    {page * per_page, per_page}
+  end
+  defp get_paging_info(_), do: {0, @default_page_size}
 end

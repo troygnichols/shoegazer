@@ -1,5 +1,17 @@
 defmodule Ui.Views.Shared do
 
+  def next_page(_conn = %{params: %{"page"=>current_page}}) do
+    String.to_integer(current_page) + 1
+  end
+  def next_page(_conn), do: 2
+
+  def prev_page(_conn = %{params: %{"page"=>current_page}}) do
+    String.to_integer(current_page) - 1
+  end
+
+  def per_page(_conn = %{params: %{"per_page"=>per_page}}), do: per_page
+  def per_page(_conn), do: 10
+
   def twitter_url(twitter_id) do
     screen_name = GenServer.call(:db, :screen_name)
     "https://twitter.com/#{screen_name}/status/#{twitter_id}"

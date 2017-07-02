@@ -35,3 +35,14 @@
 <% end %>
   </tbody>
 </table>
+
+
+<%= if @meta.offset > 0 do %>
+  <%= link "Prev", class: "btn btn-secondary btn-sm",
+    to: entry_path(@conn, :index, page: prev_page(@conn), per_page: per_page(@conn)) %>
+<% end %>
+
+<%= if @meta.current < @meta.total do %>
+  <%= link "Next", class: "btn btn-secondary btn-sm",
+    to: entry_path(@conn, :index, page: next_page(@conn), per_page: per_page(@conn)) %>
+<% end %>

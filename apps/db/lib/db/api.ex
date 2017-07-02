@@ -17,8 +17,8 @@ defmodule Db.API do
     GenServer.start_link(__MODULE__, [], @options)
   end
 
-  def handle_call({:get_entries, offset}, _from, state) do
-    {:reply, get_entries(offset), state}
+  def handle_call({:get_entries, offset, limit}, _from, state) do
+    {:reply, get_entries(offset, limit), state}
   end
 
   def handle_call({:delete_entry, :id, id}, _from, state) do
@@ -33,13 +33,14 @@ defmodule Db.API do
     {:reply, screen_name(), state}
   end
 
-  def get_entries(offset \\ 0, limit \\ @max_limit, sort_dir \\ :desc) do
+  def get_entries(offset \\ 0, limit \\ nil, sort_dir \\ :desc) do
+    limit = limit || @max_limit
     import Ecto.Query
     records = Repo.all(
       from e in Entry, order_by: [{^sort_dir, e.posted_at}])
       |> Enum.slice(offset, limit)
     total = :mnesia.table_info(:entries, :size)
-    %{total: total, records: records, limit: limit, offset: offset}
+    %{total: total, records: records, limit: limit, offset: offset, current: offset + limit}
   end
 
   def delete_entry(:id, id) do
