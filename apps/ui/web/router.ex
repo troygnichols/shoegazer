@@ -16,8 +16,10 @@ defmodule Ui.Router do
   scope "/", Ui do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
     # TODO: put behind basic auth
+    get "/", PageController, :index
+    post "/next_video", PageController, :next_video
+
     resources "/entries", EntryController, only: [:index, :show, :delete]
   end
 

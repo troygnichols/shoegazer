@@ -9,24 +9,18 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 let player
 
 window.onYouTubeIframeAPIReady = function() {
-  console.log('onYouTubeIframeAPIReady')
-
-  // const videoId = getVideoId()
-  const videoId = 'fllbdNMwAvY'
-  console.log('videoId', videoId)
+  const videoId = getVideoId()
   player = makePlayer(videoId)
 }
 
 function getVideoId() {
-  const url = document.getElementById('player-container')
-    .getAttribute('data-url')
-  const parts = url.split("/")
-  return parts[parts.length - 1]
+  return document.getElementById('player-container')
+    .getAttribute('data-video-id')
 }
 
 function makePlayer(videoId) {
   new YT.Player('player', {
-    height: 390,
+    height: 380,
     width: 640,
     videoId: videoId,
     events: {
@@ -37,14 +31,37 @@ function makePlayer(videoId) {
 }
 
 function onPlayerReady(event) {
-  console.log('onPlayerReady', event)
-  // event.target.playVideo()
+  showControls()
+  if (checkAutoPlay()) {
+    event.target.playVideo();
+  }
 }
 
 function onPlayerStateChange(event) {
+  console.log("youtube player state changed", event)
   if (event.data == YT.PlayerState.ENDED) {
-    console.log("video ended")
+    goToNextVideo()
   }
+  else if (event.data == YT.PlayerState.UNSTARTED) {
+    // error playing video
+    // TODO: maybe log this somehow so it can be marked and removed eventually?
+    console.log("Could not play video, skipping to next")
+    goToNextVideo()
+  }
+}
+
+function showControls() {
+  var ctrlPanel = document.getElementsByClassName('player-controls')[0]
+  ctrlPanel.removeAttribute('hidden')
+}
+
+function goToNextVideo() {
+  document.getElementById('next-video').submit()
+}
+
+function checkAutoPlay() {
+  return document.getElementById('player-container')
+    .getAttribute('data-autoplay') == 'yes'
 }
 
 export default {}

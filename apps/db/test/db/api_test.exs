@@ -116,4 +116,15 @@ defmodule Db.APITest do
     found = Db.API.earliest_entry(foobar: :bazqux)
     assert found.twitter_id == entry1.twitter_id
   end
+
+  test "mark entry listened" do
+    Db.Repo.delete_all(Db.Entry)
+    Db.Repo.insert!( %Db.Entry{twitter_id: 1, url: "http://foo.bar", video_id: "foo", created_at: 0, posted_at: 0, listened: false})
+    Db.Repo.insert!(%Db.Entry{twitter_id: 2, url: "http://baz.qux", video_id: "bar", created_at: 0, posted_at: 1, listened: false})
+    entry = Db.Repo.get_by!(Db.Entry, twitter_id: 1)
+    assert entry.listened == false
+    Db.API.mark_entry_listened(entry.id)
+    entry = Db.Repo.get_by!(Db.Entry, twitter_id: 1)
+    assert entry.listened == true
+  end
 end

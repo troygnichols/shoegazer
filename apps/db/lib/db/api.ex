@@ -33,6 +33,10 @@ defmodule Db.API do
     {:reply, earliest_entry(opts), state}
   end
 
+  def handle_call({:mark_entry_listened, id}, _from, state) do
+    {:reply, mark_entry_listened(id), state}
+  end
+
   def handle_call(:screen_name, _from, state) do
     {:reply, screen_name(), state}
   end
@@ -63,7 +67,17 @@ defmodule Db.API do
       val when is_boolean(val) -> query |> where(listened: ^val)
       _ -> query
     end
-    Db.Repo.one(query)
+    Repo.one(query)
+  end
+
+  def mark_entry_listened(id) do
+    Repo.get(Entry, id)
+    |> Entry.changeset(%{listened: true})
+    |> Repo.update!()
+  end
+
+  def reset_listened do
+    Repo.update_all(Entry, set: [listened: false])
   end
 
   def screen_name do

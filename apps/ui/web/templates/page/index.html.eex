@@ -1,5 +1,5 @@
 <%= if is_nil(@entry) do %>
   <%= render Ui.SharedView, "nodata.html" %>
 <% else %>
-  <%= render Ui.PageView, "video_player.html", entry: @entry %>
+  <%= render Ui.PageView, "video_player.html", conn: @conn, entry: @entry %>
 <% end %>
