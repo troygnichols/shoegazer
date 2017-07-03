@@ -13,6 +13,11 @@
   </li>
 
   <li>
+    <strong>Video ID:</strong>
+    <%= @entry.video_id %>
+  </li>
+
+  <li>
     <strong>Created at:</strong>
     <%= unix_datetime @entry.created_at, "%y-%m-%d %H:%MZ" %>
   </li>

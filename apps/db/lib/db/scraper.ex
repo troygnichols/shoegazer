@@ -17,7 +17,7 @@ defmodule Db.Scraper do
 
   def init(state) do
     Logger.debug "Db Scraper starting poll"
-    {:ok, state} #, @poll_interval_ms}
+    {:ok, state, @poll_interval_ms}
   end
 
   def handle_info(:timeout, state) do
@@ -48,13 +48,14 @@ defmodule Db.Scraper do
   }) do
     url = case urls do
       [] -> nil
-      [%{"url" => url}|_] -> url
+      [%{"expanded_url" => url}|_] -> url
     end
+    video_id = parse_video_id(url)
     unix_now = DateTime.utc_now() |> DateTime.to_unix()
     unix_posted_at = Timex.parse!(posted_at,
       "%a %b %d %H:%M:%S %z %Y", :strftime)
       |> DateTime.to_unix()
-    %{twitter_id: id, url: url, listened: false,
+    %{twitter_id: id, url: url, video_id: video_id, listened: false,
       created_at: unix_now, posted_at: unix_posted_at}
   end
 
@@ -109,5 +110,12 @@ defmodule Db.Scraper do
 
     newest_entry_after_update = Enum.max_by(entries, &(&1.twitter_id))
     sync_tweets_with_entries(newest_tweet, newest_entry_after_update)
+  end
+
+  def parse_video_id(url) do
+    case Regex.match?(~r/(https|http):\/\/youtu/, url) do
+      true -> url |> String.split("/") |> List.last()
+      _ -> nil
+    end
   end
 end

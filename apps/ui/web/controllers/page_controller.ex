@@ -8,4 +8,5 @@ defmodule Ui.PageController do
   defp get_entry do
     GenServer.call(:db, {:earliest_entry, listened: false})
   end
+
 end

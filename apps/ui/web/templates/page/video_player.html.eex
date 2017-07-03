@@ -1,0 +1,10 @@
+<div class="container">
+  <div id="player-container" data-url="<%= @entry.url %>">
+    <div class="yt-placeholder" id="player">
+      <div>
+        <img class="clock" src="/images/clock.svg?vsn=d">
+        Loading...
+      </div>
+    </div>
+  </div>
+</div>

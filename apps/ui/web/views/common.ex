@@ -1,4 +1,4 @@
-defmodule Ui.Views.Shared do
+defmodule Ui.Views.Common do
 
   def next_page(_conn = %{params: %{"page"=>current_page}}) do
     String.to_integer(current_page) + 1
@@ -39,4 +39,5 @@ defmodule Ui.Views.Shared do
   def yes_no(false) do
     {:safe, ~s[<span class="badge badge-pill badge-danger">No</span>]}
   end
+
 end

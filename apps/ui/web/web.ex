@@ -44,6 +44,7 @@ defmodule Ui.Web do
       import Ui.Router.Helpers
       import Ui.ErrorHelpers
       import Ui.Gettext
+      import Ui.Views.Common
     end
   end
 

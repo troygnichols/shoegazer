@@ -5,6 +5,7 @@ defmodule Db.Repo.Migrations.CreateEntries do
     create table(:entries) do
       add :id,         :integer
       add :twitter_id, :integer
+      add :video_id,   :string
       add :url,        :string
       add :created_at, :integer
       add :posted_at,  :integer

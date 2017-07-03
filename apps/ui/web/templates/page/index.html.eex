@@ -1,11 +1,5 @@
-<hr>
-<div class="container">
-  <div id="player-container" data-url="<%= @entry.url %>">
-    <div class="yt-placeholder" id="player">
-      <div>
-        <img class="clock" src="/images/clock.svg?vsn=d">
-        Loading...
-      </div>
-    </div>
-  </div>
-</div>
+<%= if is_nil(@entry) do %>
+  <%= render Ui.SharedView, "nodata.html" %>
+<% else %>
+  <%= render Ui.PageView, "video_player.html", entry: @entry %>
+<% end %>
