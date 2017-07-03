@@ -9,7 +9,6 @@
       <th>ID</th>
       <th>Twt ID</th>
       <th>URL</th>
-      <th>Created*</th>
       <th>Posted*</th>
       <th>Listened</th>
 
@@ -22,7 +21,6 @@
       <td><%= entry.id %></td>
       <td><%= link entry.twitter_id, to: twitter_url(entry.twitter_id), target: "_blank" %></td>
       <td><%= link entry.url, to: entry.url, target: "_blank" %></td>
-      <td><%= unix_datetime entry.created_at, "%y-%m-%d %H:%MZ" %></td>
       <td><%= unix_datetime entry.posted_at, "%y-%m-%d %H:%MZ" %></td>
       <td><%= yes_no entry.listened %></td>
 

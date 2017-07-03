@@ -10,8 +10,6 @@ defmodule Db.API do
     # debug: [:trace],
   ]
 
-  @max_limit 200
-
   def start_link do
     Logger.debug "DB API starting"
     GenServer.start_link(__MODULE__, [], @options)
@@ -41,14 +39,16 @@ defmodule Db.API do
     {:reply, screen_name(), state}
   end
 
-  def get_entries(offset \\ 0, limit \\ nil, sort_dir \\ :desc) do
+  def get_entries(offset \\ 0, limit \\ nil) do
     import Ecto.Query
-    limit = limit || @max_limit
-    records = Repo.all(
-      from e in Entry, order_by: [{^sort_dir, e.posted_at}])
-      |> Enum.slice(offset, limit)
     total = :mnesia.table_info(:entries, :size)
-    %{total: total, records: records, limit: limit, offset: offset, current: offset + limit}
+    records = Repo.all(
+      from e in Entry, order_by: [asc: :posted_at])
+    {records, current} = case limit do
+      nil -> {records, total}
+      _ -> {Enum.slice(offset, limit), limit + offset}
+    end
+    %{total: total, records: records, limit: limit, offset: offset, current: current}
   end
 
   def delete_entry(:id, id) do

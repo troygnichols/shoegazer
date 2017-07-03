@@ -19,7 +19,7 @@ defmodule Ui.EntryController do
   end
 
   defp get_entries(offset, limit) do
-    GenServer.call(:db, {:get_entries, offset, limit})
+    GenServer.call(:db, {:get_entries, 0, nil})
     |> Map.pop(:records)
   end
 
