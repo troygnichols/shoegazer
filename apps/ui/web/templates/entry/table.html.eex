@@ -3,7 +3,7 @@
   <small><em>*Times shown in UTC</em></small>
 </p>
 
-<table class="table">
+<table id="entry-table" class="table">
   <thead>
     <tr>
       <th>ID</th>

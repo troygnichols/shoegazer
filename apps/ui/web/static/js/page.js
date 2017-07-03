@@ -1,67 +1,70 @@
-let tag = document.createElement('script')
-tag.src = 'http://www.youtube.com/iframe_api'
+const playerContainer = document.getElementById('player-container')
 
-console.log("Setting up youtube player")
+if (playerContainer !== null) {
 
-const firstScriptTag = document.getElementsByTagName('script')[0]
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  let tag = document.createElement('script')
+  tag.src = 'http://www.youtube.com/iframe_api'
 
-let player
+  console.log("Setting up youtube player")
 
-window.onYouTubeIframeAPIReady = function() {
-  const videoId = getVideoId()
-  player = makePlayer(videoId)
-}
+  const firstScriptTag = document.getElementsByTagName('script')[0]
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-function getVideoId() {
-  return document.getElementById('player-container')
-    .getAttribute('data-video-id')
-}
+  let player
 
-function makePlayer(videoId) {
-  new YT.Player('player', {
-    height: 380,
-    width: 640,
-    videoId: videoId,
-    events: {
-      onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange
+  window.onYouTubeIframeAPIReady = function() {
+    const videoId = getVideoId()
+    player = makePlayer(videoId)
+  }
+
+  function getVideoId() {
+    return playerContainer.getAttribute('data-video-id')
+  }
+
+  function makePlayer(videoId) {
+    new YT.Player('player', {
+      height: 380,
+      width: 640,
+      videoId: videoId,
+      events: {
+        onReady: onPlayerReady,
+        onStateChange: onPlayerStateChange
+      }
+    })
+  }
+
+  function onPlayerReady(event) {
+    showControls()
+    if (checkAutoPlay()) {
+      event.target.playVideo();
     }
-  })
-}
-
-function onPlayerReady(event) {
-  showControls()
-  if (checkAutoPlay()) {
-    event.target.playVideo();
   }
-}
 
-function onPlayerStateChange(event) {
-  console.log("youtube player state changed", event)
-  if (event.data == YT.PlayerState.ENDED) {
-    goToNextVideo()
+  function onPlayerStateChange(event) {
+    console.log("youtube player state changed", event)
+    if (event.data == YT.PlayerState.ENDED) {
+      goToNextVideo()
+    }
+    else if (event.data == YT.PlayerState.UNSTARTED) {
+      // error playing video
+      // TODO: maybe log this somehow so it can be marked and removed eventually?
+      console.log("Could not play video, skipping to next")
+      goToNextVideo()
+    }
   }
-  else if (event.data == YT.PlayerState.UNSTARTED) {
-    // error playing video
-    // TODO: maybe log this somehow so it can be marked and removed eventually?
-    console.log("Could not play video, skipping to next")
-    goToNextVideo()
+
+  function showControls() {
+    var ctrlPanel = document.getElementsByClassName('player-controls')[0]
+    ctrlPanel.removeAttribute('hidden')
   }
-}
 
-function showControls() {
-  var ctrlPanel = document.getElementsByClassName('player-controls')[0]
-  ctrlPanel.removeAttribute('hidden')
-}
+  function goToNextVideo() {
+    document.getElementById('next-video').submit()
+  }
 
-function goToNextVideo() {
-  document.getElementById('next-video').submit()
-}
-
-function checkAutoPlay() {
-  return document.getElementById('player-container')
-    .getAttribute('data-autoplay') == 'yes'
+  function checkAutoPlay() {
+    return playerContainer.getAttribute('data-autoplay') == 'yes'
+  }
 }
 
 export default {}

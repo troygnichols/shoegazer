@@ -70,6 +70,13 @@ exports.config = {
 
   npm: {
     enabled: true,
-    styles: {bootstrap: ["dist/css/bootstrap.css"]}
+    styles: {
+      bootstrap: [
+        "dist/css/bootstrap.css",
+      ],
+      'datatables.net-dt': [
+        'css/jquery.dataTables.css'
+      ]
+    }
   }
 };

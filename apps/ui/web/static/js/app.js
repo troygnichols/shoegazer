@@ -20,4 +20,9 @@ import "phoenix_html"
 
 // import socket from "./socket"
 
+
+import "jquery"
+import "datatables.net"
+
 import page from "./page"
+import entry from "./entry"
