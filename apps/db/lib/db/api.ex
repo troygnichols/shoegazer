@@ -46,7 +46,7 @@ defmodule Db.API do
       from e in Entry, order_by: [asc: :posted_at])
     {records, current} = case limit do
       nil -> {records, total}
-      _ -> {Enum.slice(offset, limit), limit + offset}
+      _ -> {Enum.slice(records, offset, limit), limit + offset}
     end
     %{total: total, records: records, limit: limit, offset: offset, current: current}
   end
