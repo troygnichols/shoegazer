@@ -1,7 +1,5 @@
 # TODO
 
-- Change the main page to something more like REST resources
-- Add link from show page to /watch/[video id]
 - Add text to entries table? (band name)
 - Ability to make groups
 - Ability to add notes

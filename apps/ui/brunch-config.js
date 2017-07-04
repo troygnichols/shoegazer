@@ -57,6 +57,9 @@ exports.config = {
     copycat: {
       'fonts': [
         'node_modules/font-awesome/fonts'
+      ],
+      'images': [
+        'node_modules/datatables.net-dt/images'
       ]
     },
     babel: {
