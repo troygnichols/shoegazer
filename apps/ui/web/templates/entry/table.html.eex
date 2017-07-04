@@ -1,3 +1,10 @@
+<%= link to: page_path(@conn, :index) do %>
+  <%= fa_icon "video-camera" %> Watch Next Video
+<% end %>
+
+<hr>
+<br>
+
 <h2 class="float-left">Entries</h2>
 <p class="float-right">
   <small><em>*Times shown in UTC</em></small>

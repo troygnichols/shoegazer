@@ -18,7 +18,10 @@ defmodule Ui.Router do
 
     # TODO: put behind basic auth
     get "/", PageController, :index
-    post "/next_video", PageController, :next_video
+    post "/next_video", WatchController, :next_video
+    post "/prev_video", WatchController, :prev_video
+
+    get "/watch/:entry_id", WatchController, :watch
 
     resources "/entries", EntryController, only: [:index, :show, :delete]
   end

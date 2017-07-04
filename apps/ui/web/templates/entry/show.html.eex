@@ -1,37 +1,62 @@
-<h2>Entry #<%= @entry.id %></h2>
+<%= link to: entry_path(@conn, :index) do %>
+  <%= fa_icon "list" %> Back to Entries
+<% end %>
 
-<ul>
+<hr>
+<br>
 
-  <li>
-    <strong>Twitter ID:</strong>
-    <%= link @entry.twitter_id, to: twitter_url(@entry.twitter_id), target: "_blank" %>
-  </li>
+<div class="entry-details">
+  <h2>Entry #<%= @entry.id %></h2>
 
-  <li>
-    <strong>URL:</strong>
-    <%= link @entry.url, to: @entry.url, target: "_blank" %>
-  </li>
+  <ul>
+    <li>
+      <strong>Twitter ID:</strong>
+      <%= link to: twitter_url(@entry.twitter_id), target: "_blank" do %>
+        <%= @entry.twitter_id %> <%= fa_icon("external-link") %>
+      <% end %>
+    </li>
 
-  <li>
-    <strong>Video ID:</strong>
-    <%= @entry.video_id %>
-  </li>
+    <li>
+      <strong>URL:</strong>
+      <%= link to: @entry.url, target: "_blank" do %>
+        <%= @entry.url %> <%= fa_icon("external-link") %>
+      <% end %>
+    </li>
 
-  <li>
-    <strong>Created at:</strong>
-    <%= unix_datetime @entry.created_at, "%y-%m-%d %H:%MZ" %>
-  </li>
+    <li>
+      <strong>Video ID:</strong>
+      <%= @entry.video_id %>
+    </li>
 
-  <li>
-    <strong>Posted at:</strong>
-    <%= unix_datetime @entry.posted_at, "%y-%m-%d %H:%MZ" %>
-  </li>
+    <li>
+      <strong>Created at:</strong>
+      <%= unix_datetime @entry.created_at, "%y-%m-%d %H:%MZ" %>
+    </li>
 
-  <li>
-    <strong>Listened:</strong>
-    <%= yes_no @entry.listened %>
-  </li>
+    <li>
+      <strong>Posted at:</strong>
+      <%= unix_datetime @entry.posted_at, "%y-%m-%d %H:%MZ" %>
+    </li>
 
-</ul>
+    <li>
+      <strong>Listened:</strong>
+      <%= yes_no @entry.listened %>
+    </li>
 
-<%= link "Back", class: "btn btn-secondary", to: entry_path(@conn, :index) %>
+  </ul>
+
+  <div class="buttons">
+    <%= link class: "btn btn-secondary", to: entry_path(@conn, :index) do %>
+      <%= fa_icon("arrow-left") %> Back
+    <% end %>
+
+    <%= link to: entry_path(@conn, :delete, @entry),
+      method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" do %>
+      <%= fa_icon("trash") %> Delete
+    <% end %>
+
+    <%= link to: watch_path(@conn, :watch, @entry.id), class: "btn btn-primary" do %>
+      <%= fa_icon("video-camera") %> Watch
+    <% end %>
+  </div>
+</div>

@@ -34,7 +34,10 @@ exports.config = {
     // This option sets where we should place non-css and non-js assets in.
     // By default, we set this to "/web/static/assets". Files in this directory
     // will be copied to `paths.public`, which is "priv/static" by default.
-    assets: /^(web\/static\/assets)/
+    assets: [
+      /^(web\/static\/assets)/,
+      /^(node_modules\/font_awesome)/
+    ]
   },
 
   // Phoenix paths configuration
@@ -51,13 +54,21 @@ exports.config = {
 
   // Configure your plugins
   plugins: {
+    copycat: {
+      'fonts': [
+        'node_modules/font-awesome/fonts'
+      ]
+    },
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/web\/static\/vendor/]
     },
     sass: {
       options: {
-        includePaths: ['node_modules/bootstrap/scss']
+        includePaths: [
+          'node_modules/bootstrap/scss',
+          'node_modules/font-awesome/scss'
+        ]
       }
     }
   },
@@ -76,6 +87,10 @@ exports.config = {
       ],
       'datatables.net-dt': [
         'css/jquery.dataTables.css'
+      ],
+      'font-awesome': [
+        'css/font-awesome.css',
+        'css/font-awesome.css.map'
       ]
     }
   }

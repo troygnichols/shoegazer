@@ -59,7 +59,9 @@ if (playerContainer !== null) {
   }
 
   function goToNextVideo() {
-    document.getElementById('next-video').submit()
+    document.getElementById('autoplay-input').value = 'yes'
+    const form = document.getElementById('next-video')
+    form.submit()
   }
 
   function checkAutoPlay() {

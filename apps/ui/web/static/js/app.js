@@ -24,5 +24,5 @@ import "phoenix_html"
 import "jquery"
 import "datatables.net"
 
-import page from "./page"
+import watch from "./watch"
 import entry from "./entry"

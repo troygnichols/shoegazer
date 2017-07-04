@@ -1,5 +1,7 @@
 /* This file is for your main application css. */
 
+$fa-font-path: "../fonts";
+
 .yt-placeholder {
   height: 390px;
   width: 640px;
@@ -14,5 +16,24 @@
       height: 1.1em;
       margin-bottom: 7px;
     }
+  }
+}
+
+.entry-details {
+  .buttons {
+    button {
+      margin-right: 1em;
+    }
+  }
+}
+
+.player-controls {
+  form {
+    float: left;
+    margin-right: 1em;
+  }
+
+  #player-continue {
+    margin-top: 15px;
   }
 }

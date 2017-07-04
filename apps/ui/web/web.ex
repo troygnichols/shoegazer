@@ -45,6 +45,7 @@ defmodule Ui.Web do
       import Ui.ErrorHelpers
       import Ui.Gettext
       import Ui.Views.Common
+      import FontAwesomePhoenix.HTML
     end
   end
 

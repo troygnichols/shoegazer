@@ -1,0 +1,44 @@
+<%= link to: entry_path(@conn, :index) do %>
+  <%= fa_icon "list" %> View All
+<% end %>
+
+<hr>
+<br>
+
+<div class="container">
+  <div id="player-container"
+    data-autoplay="<%= autoplay(@conn) %>"
+    data-video-id="<%= @entry.video_id %>">
+
+    <div class="yt-placeholder" id="player">
+      <div>
+        <img class="clock" src="/images/clock.svg?vsn=d">
+        Loading...
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="player-controls" hidden>
+  <%= form_tag watch_path(@conn, :prev_video), method: :post, id: "prev-video" do %>
+    <input type="hidden" name="entry_id" value="<%= @entry.id %>">
+    <%= submit class: "btn btn-secondary" do %>
+      <%= fa_icon "arrow-left" %> Prev
+    <% end %>
+
+  <% end %>
+
+  <%= form_tag watch_path(@conn, :next_video), method: :post, id: "next-video" do %>
+    <input type="hidden" name="entry_id" value="<%= @entry.id %>">
+    <input id="autoplay-input" type="hidden" name="autoplay" value="no">
+    <%= submit class: "btn btn-secondary" do %>
+      Next <%= fa_icon "arrow-right" %>
+    <% end %>
+    <br>
+    <input type="checkbox" <%= player_mark_watched_checked(@conn) %> id="player-continue" name="video_mark_watched" value="on">
+    <label for="player-continue">Mark as watched?</label>
+  <% end %>
+</div>
+

@@ -31,6 +31,14 @@ defmodule Db.API do
     {:reply, earliest_entry(opts), state}
   end
 
+  def handle_call({:next_entry, id, opts}, _from, state) do
+    {:reply, next_entry(id, opts), state}
+  end
+
+  def handle_call({:prev_entry, id}, _from, state) do
+    {:reply, prev_entry(id), state}
+  end
+
   def handle_call({:mark_entry_listened, id}, _from, state) do
     {:reply, mark_entry_listened(id), state}
   end
@@ -68,6 +76,31 @@ defmodule Db.API do
       _ -> query
     end
     Repo.one(query)
+  end
+
+  def next_entry(id, opts \\ []) do
+    import Ecto.Query
+    entry = fetch_entry(:id, id)
+    query =
+      from e in Entry,
+      order_by: [asc: e.posted_at],
+      where: e.twitter_id > ^entry.twitter_id,
+      limit: 1
+    query = case opts[:listened] do
+      val when is_boolean(val) -> query |> where(listened: ^val)
+      _ -> query
+    end
+    Repo.one(query)
+  end
+
+  def prev_entry(id) do
+    import Ecto.Query
+    entry = fetch_entry(:id, id)
+    Repo.one(
+      from e in Entry,
+      order_by: [desc: e.posted_at],
+      where: e.twitter_id < ^entry.twitter_id,
+      limit: 1)
   end
 
   def mark_entry_listened(id) do
